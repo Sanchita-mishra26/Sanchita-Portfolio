@@ -1,60 +1,79 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 import emailjs from '@emailjs/browser'
 
 export function Contact() {
+  const formRef = useRef<HTMLFormElement>(null)
   const [formState, setFormState] = useState({
     name: '',
     email: '',
     message: '',
   })
-  const [submitted, setSubmitted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const [errorMsg, setErrorMsg] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState<null | 'success' | 'error'>(null)
+  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({})
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    
+
     // Basic validation
-    if (!formState.name.trim() || !formState.email.trim() || !formState.message.trim()) {
-      setErrorMsg('All fields are required.')
-      return
+    const newErrors: { name?: string; email?: string; message?: string } = {}
+    if (!formState.name || formState.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters.'
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(formState.email)) {
-      setErrorMsg('Please enter a valid email address.')
+    if (!formState.email || !emailRegex.test(formState.email)) {
+      newErrors.email = 'Please enter a valid email address.'
+    }
+
+    if (!formState.message || formState.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters.'
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
       return
     }
 
-    setErrorMsg('')
-    setIsSubmitting(true)
-    
+    setErrors({})
+    setLoading(true)
+    setStatus(null)
+
     // EmailJS Configuration
-    // IMPORTANT: Replace the placeholders below with your actual keys from EmailJS
-    const SERVICE_ID = 'service_YOUR_ID'   // e.g., 'service_a1b2c3d'
-    const TEMPLATE_ID = 'template_YOUR_ID' // e.g., 'template_x9y8z7w'
-    const PUBLIC_KEY = 'YOUR_PUBLIC_KEY'   // e.g., 'aBcDeFgHiJkLmNoPq'
+    const SERVICE_ID = 'service_gypfjp7'
+    const TEMPLATE_ID = 'template_55verfv'
+    const PUBLIC_KEY = 'G5rcec9YJdiDKSN8Z'
 
     emailjs
-      .sendForm(SERVICE_ID, TEMPLATE_ID, e.currentTarget, PUBLIC_KEY)
+      .send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: formState.name,
+          from_email: formState.email,
+          message: formState.message,
+        },
+        {
+          publicKey: PUBLIC_KEY.trim() // <-- Forces it into an options object AND removes invisible spaces
+        }
+      )
       .then(
         (result) => {
-          setSubmitted(true)
+          setStatus('success')
           setFormState({ name: '', email: '', message: '' })
-          setTimeout(() => setSubmitted(false), 5000)
+          setTimeout(() => setStatus(null), 4000)
         },
         (error) => {
-          console.error('EmailJS Error:', error.text)
-          setErrorMsg(`Failed to send: ${error.text || 'Invalid configuration'}`)
+          console.error('EmailJS Error:', JSON.stringify(error))
+          setStatus('error')
         }
       )
       .finally(() => {
-        setIsSubmitting(false)
+        setLoading(false)
       })
   }
 
@@ -91,7 +110,7 @@ export function Contact() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Name
@@ -101,10 +120,12 @@ export function Contact() {
                   name="name"
                   value={formState.name}
                   onChange={handleChange}
+                  disabled={loading}
                   required
                   className="w-full px-4 py-3 rounded-lg border border-border bg-card text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
                   placeholder="Your name"
                 />
+                {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
               </div>
 
               <div>
@@ -116,10 +137,12 @@ export function Contact() {
                   name="email"
                   value={formState.email}
                   onChange={handleChange}
+                  disabled={loading}
                   required
                   className="w-full px-4 py-3 rounded-lg border border-border bg-card text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
                   placeholder="your.email@example.com"
                 />
+                {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
               </div>
 
               <div>
@@ -130,40 +153,42 @@ export function Contact() {
                   name="message"
                   value={formState.message}
                   onChange={handleChange}
+                  disabled={loading}
                   required
                   rows={4}
                   className="w-full px-4 py-3 rounded-lg border border-border bg-card text-foreground placeholder-foreground/40 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all resize-none"
                   placeholder="Your message here..."
                 />
+                {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
               </div>
 
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                disabled={isSubmitting}
+                disabled={loading}
                 className="w-full px-6 py-3 rounded-lg bg-accent text-background font-semibold hover:bg-accent/80 transition-all glow-neon disabled:opacity-70"
               >
-                {isSubmitting ? 'Sending...' : submitted ? 'Message Sent!' : 'Send Message'}
+                {loading ? 'Sending...' : 'Send Message'}
               </motion.button>
 
-              {errorMsg && (
+              {status === 'error' && (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="text-center text-destructive text-sm"
                 >
-                  {errorMsg}
+                  Something went wrong. Please try again.
                 </motion.p>
               )}
 
-              {submitted && (
+              {status === 'success' && (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="text-center text-accent text-sm"
                 >
-                  Thanks for reaching out! I&apos;ll get back to you soon.
+                  Message sent! I&apos;ll get back to you within 24 hours.
                 </motion.p>
               )}
             </form>

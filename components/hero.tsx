@@ -54,7 +54,7 @@ export function Hero() {
   return (
     <section className="min-h-screen flex items-center justify-center pt-20 px-4 relative overflow-hidden">
       {/* Animated 3D background elements with parallax */}
-      <div className="absolute inset-0 -z-10 perspective">
+      <div className="absolute inset-0 -z-10 perspective pointer-events-none">
         <motion.div
           animate={{ x: mousePosition.x * 2, y: mousePosition.y * 2 }}
           transition={{ type: 'spring', stiffness: 100, damping: 30 }}
@@ -76,7 +76,7 @@ export function Hero() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-3xl mx-auto text-center z-10 perspective"
+        className="max-w-3xl mx-auto text-center relative z-10 perspective"
         style={{
           transformStyle: 'preserve-3d',
           transform: `perspective(1200px) rotateX(${mousePosition.y * 0.02}deg) rotateY(${-mousePosition.x * 0.02}deg)`,
@@ -124,42 +124,58 @@ export function Hero() {
 
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap gap-4 justify-center"
+          className="flex flex-wrap gap-4 justify-center relative z-20"
         >
-          <motion.div
-            whileHover={{ scale: 1.1, rotateY: -5 }}
-            whileTap={{ scale: 0.95 }}
-            style={{ transformStyle: 'preserve-3d' }}
+          <Link
+            href="#projects"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+              // Optional: Update URL without jumping
+              window.history.pushState(null, '', '#projects');
+            }}
+            passHref
+            legacyBehavior={false}
           >
-            <a
-              href="#projects"
-              className="px-8 py-4 rounded-lg bg-accent text-background font-semibold hover:bg-accent/80 transition-all glow-neon inline-block"
+            <motion.div
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-lg bg-accent text-background font-semibold md:hover:bg-accent/80 md:hover:[transform:scale(1.1)_rotateY(-5deg)] transition-all duration-300 glow-neon block cursor-pointer"
+              style={{ transformStyle: 'preserve-3d' }}
             >
               View Projects
-            </a>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.1, rotateY: 5 }}
-            whileTap={{ scale: 0.95 }}
-            style={{ transformStyle: 'preserve-3d' }}
+            </motion.div>
+          </Link>
+          <Link
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              window.history.pushState(null, '', '#contact');
+            }}
+            passHref
+            legacyBehavior={false}
           >
-            <a
-              href="#contact"
-              className="px-8 py-4 rounded-lg border border-accent text-accent hover:bg-accent/10 font-semibold transition-all inline-block"
+            <motion.div
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-lg border border-accent text-accent md:hover:bg-accent/10 md:hover:[transform:scale(1.1)_rotateY(5deg)] font-semibold transition-all duration-300 block cursor-pointer"
+              style={{ transformStyle: 'preserve-3d' }}
             >
               Get in Touch
-            </a>
-          </motion.div>
-          <motion.a
-            href="/resume.pdf"
+            </motion.div>
+          </Link>
+          <a
+            href="/Sanchita_Mishra_Resume.pdf"
             download="Sanchita_Mishra_Resume.pdf"
-            whileHover={{ scale: 1.1, rotateY: 10 }}
-            whileTap={{ scale: 0.95 }}
-            style={{ transformStyle: 'preserve-3d' }}
-            className="px-8 py-4 rounded-lg border border-[#7c3aed] text-[#7c3aed] hover:bg-[#7c3aed]/10 font-semibold transition-all inline-block glow-purple"
+            className="block"
           >
-            Download Resume
-          </motion.a>
+            <motion.div
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-lg border border-[#7c3aed] text-[#7c3aed] md:hover:bg-[#7c3aed]/10 md:hover:[transform:scale(1.1)_rotateY(10deg)] font-semibold transition-all duration-300 block glow-purple cursor-pointer"
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              Download Resume
+            </motion.div>
+          </a>
         </motion.div>
 
         {/* Scroll indicator with 3D effect */}

@@ -135,7 +135,7 @@ export function Skills() {
                       : '0 5px 15px rgba(0, 0, 0, 0.1)',
                 }}
                 transition={{ duration: 0.3 }}
-                className="p-6 rounded-2xl border border-border bg-gradient-to-br from-card/80 to-card/40 hover:border-accent/50 transition-all duration-300 h-full relative overflow-hidden group"
+                className="p-6 pt-8 rounded-2xl border border-border bg-gradient-to-br from-card/80 to-card/40 hover:border-accent/50 transition-all duration-300 h-full relative group"
                 style={{ transformStyle: 'preserve-3d' }}
               >
                 {/* Animated background glow */}
@@ -196,7 +196,7 @@ export function Skills() {
                         </motion.span>
 
                         {/* Tooltip */}
-                        <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 opacity-0 group-hover/skill:opacity-100 transition-opacity pointer-events-none z-50">
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover/skill:opacity-100 transition-opacity pointer-events-none z-50">
                           <div className="bg-background border border-accent/30 text-accent text-xs px-2 py-1 rounded whitespace-nowrap shadow-[0_0_10px_rgba(0,217,255,0.2)]">
                             {skill.level}
                           </div>

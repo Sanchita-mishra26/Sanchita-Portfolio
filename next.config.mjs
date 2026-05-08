@@ -9,7 +9,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/resume.pdf',
+        source: '/Sanchita_Mishra_Resume.pdf',
         headers: [
           {
             key: 'Content-Disposition',

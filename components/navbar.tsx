@@ -28,24 +28,27 @@ export function Navbar() {
         <div className="hidden md:flex gap-8">
           {navItems.map((item) => (
             <motion.div key={item.name} whileHover={{ y: -2 }}>
-              <Link
+              <a
                 href={item.href}
-                className="text-sm text-foreground/70 hover:text-accent transition-colors"
+                className="text-sm text-foreground/70 hover:text-accent transition-colors cursor-pointer"
               >
                 {item.name}
-              </Link>
+              </a>
             </motion.div>
           ))}
         </div>
         <div className="flex gap-3 items-center">
-          <motion.a
-            href="/resume.pdf"
-            download="Sanchita_Mishra_Resume.pdf"
+          <motion.div
             whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(0, 217, 255, 0.5)' }}
-            className="px-4 py-2 text-sm rounded-lg border border-accent text-accent hover:bg-accent/10 transition-all"
           >
-            Download Resume
-          </motion.a>
+            <a
+              href="/Sanchita_Mishra_Resume.pdf"
+              download="Sanchita_Mishra_Resume.pdf"
+              className="px-4 py-2 text-sm rounded-lg border border-accent text-accent hover:bg-accent/10 transition-all cursor-pointer inline-block"
+            >
+              Download Resume
+            </a>
+          </motion.div>
           <motion.a
             href="https://github.com/Sanchita-mishra26"
             target="_blank"
