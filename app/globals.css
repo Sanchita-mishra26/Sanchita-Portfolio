@@ -4,74 +4,98 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #0f172a;
-  --foreground: #e2e8f0;
-  --card: #1e293b;
-  --card-foreground: #e2e8f0;
-  --popover: #1e293b;
-  --popover-foreground: #e2e8f0;
-  --primary: #0f172a;
-  --primary-foreground: #e2e8f0;
-  --secondary: #1e293b;
-  --secondary-foreground: #e2e8f0;
-  --muted: #334155;
-  --muted-foreground: #94a3b8;
-  --accent: #00d9ff;
-  --accent-foreground: #0f172a;
-  --destructive: #ef4444;
-  --destructive-foreground: #fef2f2;
-  --border: #334155;
-  --input: #334155;
-  --ring: #00d9ff;
-  --chart-1: #00d9ff;
-  --chart-2: #7c3aed;
-  --chart-3: #06b6d4;
-  --chart-4: #a78bfa;
-  --chart-5: #38bdf8;
-  --radius: 0.625rem;
-  --sidebar: #0f172a;
-  --sidebar-foreground: #e2e8f0;
-  --sidebar-primary: #00d9ff;
-  --sidebar-primary-foreground: #0f172a;
-  --sidebar-accent: #7c3aed;
-  --sidebar-accent-foreground: #e2e8f0;
-  --sidebar-border: #334155;
-  --sidebar-ring: #00d9ff;
+  --background: #f7f7f5;
+  --foreground: #14151a;
+  --card: #ffffff;
+  --card-foreground: #14151a;
+  --popover: #ffffff;
+  --popover-foreground: #14151a;
+  --primary: #14151a;
+  --primary-foreground: #f7f7f5;
+  --secondary: #eeeeec;
+  --secondary-foreground: #14151a;
+  --muted: #eeeeec;
+  --muted-foreground: #5f6270;
+  --accent: #5b46e0;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: rgba(20, 21, 26, 0.1);
+  --input: rgba(20, 21, 26, 0.12);
+  --ring: #5b46e0;
+  --chart-1: #5b46e0;
+  --chart-2: #e85d3f;
+  --chart-3: #0f9d8f;
+  --chart-4: #c2410c;
+  --chart-5: #6366f1;
+  --radius: 0.75rem;
+  --sidebar: #f7f7f5;
+  --sidebar-foreground: #14151a;
+  --sidebar-primary: #5b46e0;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eeeeec;
+  --sidebar-accent-foreground: #14151a;
+  --sidebar-border: rgba(20, 21, 26, 0.1);
+  --sidebar-ring: #5b46e0;
+
+  /* Custom polish variables */
+  --card-shadow: 0 8px 30px -10px rgba(20, 21, 26, 0.14), 0 1px 2px rgba(20, 21, 26, 0.05);
+  --glow-accent: rgba(91, 70, 224, 0.22);
+  --glow-accent-inner: rgba(91, 70, 224, 0.06);
+  --glow-warm: rgba(232, 93, 63, 0.2);
+  --gradient-start: #5b46e0;
+  --gradient-mid: #8b5cf6;
+  --gradient-end: #e85d3f;
+  --glass-bg: rgba(247, 247, 245, 0.72);
+  --grid-line: rgba(20, 21, 26, 0.06);
+  --noise-opacity: 0.025;
 }
 
 .dark {
-  --background: #0f172a;
-  --foreground: #e2e8f0;
-  --card: #1e293b;
-  --card-foreground: #e2e8f0;
-  --popover: #1e293b;
-  --popover-foreground: #e2e8f0;
-  --primary: #e2e8f0;
-  --primary-foreground: #0f172a;
-  --secondary: #1e293b;
-  --secondary-foreground: #e2e8f0;
-  --muted: #334155;
-  --muted-foreground: #94a3b8;
-  --accent: #00d9ff;
-  --accent-foreground: #0f172a;
-  --destructive: #ef4444;
-  --destructive-foreground: #fef2f2;
-  --border: #334155;
-  --input: #334155;
-  --ring: #00d9ff;
-  --chart-1: #00d9ff;
-  --chart-2: #7c3aed;
-  --chart-3: #06b6d4;
-  --chart-4: #a78bfa;
-  --chart-5: #38bdf8;
-  --sidebar: #0f172a;
-  --sidebar-foreground: #e2e8f0;
-  --sidebar-primary: #00d9ff;
-  --sidebar-primary-foreground: #0f172a;
-  --sidebar-accent: #7c3aed;
-  --sidebar-accent-foreground: #e2e8f0;
-  --sidebar-border: #334155;
-  --sidebar-ring: #00d9ff;
+  --background: #08090c;
+  --foreground: #edeef2;
+  --card: #111319;
+  --card-foreground: #edeef2;
+  --popover: #111319;
+  --popover-foreground: #edeef2;
+  --primary: #edeef2;
+  --primary-foreground: #08090c;
+  --secondary: #1a1d26;
+  --secondary-foreground: #edeef2;
+  --muted: #181a22;
+  --muted-foreground: #8d92a3;
+  --accent: #7c6ff5;
+  --accent-foreground: #ffffff;
+  --destructive: #f87171;
+  --destructive-foreground: #08090c;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #7c6ff5;
+  --chart-1: #7c6ff5;
+  --chart-2: #ff8a65;
+  --chart-3: #2dd4bf;
+  --chart-4: #fbbf24;
+  --chart-5: #a78bfa;
+  --sidebar: #08090c;
+  --sidebar-foreground: #edeef2;
+  --sidebar-primary: #7c6ff5;
+  --sidebar-primary-foreground: #08090c;
+  --sidebar-accent: #1a1d26;
+  --sidebar-accent-foreground: #edeef2;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #7c6ff5;
+
+  /* Custom polish variables */
+  --card-shadow: 0 20px 50px -16px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --glow-accent: rgba(124, 111, 245, 0.4);
+  --glow-accent-inner: rgba(124, 111, 245, 0.1);
+  --glow-warm: rgba(255, 138, 101, 0.3);
+  --gradient-start: #7c6ff5;
+  --gradient-mid: #a78bfa;
+  --gradient-end: #ff8a65;
+  --glass-bg: rgba(8, 9, 12, 0.75);
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --noise-opacity: 0.035;
 }
 
 @theme inline {
@@ -120,35 +144,120 @@
     border-color: var(--border);
     outline-color: var(--ring);
   }
+
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 88px;
   }
+
   body {
     background-color: var(--background);
     color: var(--foreground);
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--muted-foreground);
+  }
+
+  .bg-card {
+    box-shadow: var(--card-shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
 }
 
-/* 3D Transform Effects */
 @layer components {
-  .card-3d {
-    perspective: 1000px;
-    transition: transform 0.3s cubic-bezier(0.23, 1, 0.320, 1);
-  }
-
-  .card-3d:hover {
-    transform: translateZ(20px) rotateX(5deg) rotateY(-5deg);
-  }
-
-  .glow-neon {
-    box-shadow: 0 0 20px rgba(0, 217, 255, 0.5), inset 0 0 20px rgba(0, 217, 255, 0.1);
-  }
-
-  .glow-purple {
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.5), inset 0 0 20px rgba(124, 58, 237, 0.1);
-  }
-
+  /* Gradient text used sparingly on key headlines */
   .text-gradient {
-    @apply bg-gradient-to-r from-[#00d9ff] to-[#7c3aed] bg-clip-text text-transparent;
+    background-image: linear-gradient(100deg, var(--gradient-start), var(--gradient-mid) 55%, var(--gradient-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Soft, single-accent glow (replaces the old rainbow neon glow) */
+  .glow-accent {
+    box-shadow: 0 0 0 1px var(--glow-accent-inner), 0 12px 40px -12px var(--glow-accent);
+  }
+
+  .glow-accent-sm {
+    box-shadow: 0 0 24px var(--glow-accent);
+  }
+
+  /* Gentle lift-on-hover for cards; no gimmicky rotation */
+  .card-hover {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+  }
+
+  /* Faint dot/line grid backdrop, used behind Hero */
+  .bg-grid {
+    background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .bg-grid-fade {
+    -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 30%, black 10%, transparent 75%);
+    mask-image: radial-gradient(ellipse 60% 50% at 50% 30%, black 10%, transparent 75%);
+  }
+
+  /* Infinite marquee track */
+  .marquee-track {
+    animation: marquee 32s linear infinite;
+  }
+
+  .marquee-row:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+@layer utilities {
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: var(--noise-opacity);
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'%3E%3C/feTurbulence%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'%3E%3C/rect%3E%3C/svg%3E");
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }

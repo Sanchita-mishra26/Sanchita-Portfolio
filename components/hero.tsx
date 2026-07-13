@@ -1,11 +1,34 @@
 'use client'
 
-import { motion, Variants } from 'framer-motion'
-import Link from 'next/link'
+import { motion, Variants, useMotionValue, useTransform, animate } from 'framer-motion'
+import { Download, ArrowDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { MagneticButton } from './magnetic-button'
+
+const techStack = [
+  'React', 'Next.js', 'Node.js', 'Express', 'MongoDB', 'Python',
+  'LangChain', 'Socket.io', 'TypeScript', 'Tailwind CSS',
+]
 
 export function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isTyping, setIsTyping] = useState(true)
+  const count = useMotionValue(0)
+  const rounded = useTransform(count, (latest) => Math.round(latest))
+  const displayText = useTransform(rounded, (latest) => "Sanchita Mishra".slice(0, latest))
+
+  useEffect(() => {
+    const controls = animate(count, "Sanchita Mishra".length, {
+      type: "tween",
+      duration: 1.2,
+      ease: "easeInOut",
+      delay: 0.4,
+      onComplete: () => {
+        setTimeout(() => setIsTyping(false), 1200)
+      }
+    })
+    return controls.stop
+  }, [count])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -19,56 +42,45 @@ export function Hero() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    window.history.pushState(null, '', `#${id}`)
+  }
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
       },
     },
   }
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30, rotateX: -20 },
+    hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
       y: 0,
-      rotateX: 0,
-      transition: { duration: 1, ease: 'easeOut', type: 'spring', stiffness: 50 },
-    },
-  }
-
-  const floatingVariants: Variants = {
-    float: {
-      y: [0, -20, 0],
-      transition: {
-        duration: 6,
-        repeat: Infinity,
-        ease: 'easeInOut',
-      },
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
     },
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center pt-20 px-4 relative overflow-hidden">
-      {/* Animated 3D background elements with parallax */}
-      <div className="absolute inset-0 -z-10 perspective pointer-events-none">
+    <section className="min-h-screen flex flex-col items-center justify-center pt-24 px-4 relative overflow-hidden">
+      {/* Backdrop: faint grid + two soft accent blobs with subtle parallax */}
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        <div className="absolute inset-0 bg-grid bg-grid-fade" />
         <motion.div
-          animate={{ x: mousePosition.x * 2, y: mousePosition.y * 2 }}
-          transition={{ type: 'spring', stiffness: 100, damping: 30 }}
-          className="absolute top-20 left-20 w-72 h-72 bg-accent/10 rounded-full blur-3xl"
+          animate={{ x: mousePosition.x * 1.5, y: mousePosition.y * 1.5 }}
+          transition={{ type: 'spring', stiffness: 60, damping: 25 }}
+          className="absolute top-24 left-[10%] w-72 h-72 sm:w-96 sm:h-96 bg-accent/10 rounded-full blur-[100px]"
         />
         <motion.div
-          animate={{ x: mousePosition.x * -2, y: mousePosition.y * -2 }}
-          transition={{ type: 'spring', stiffness: 100, damping: 30 }}
-          className="absolute bottom-20 right-20 w-72 h-72 bg-[#7c3aed]/10 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{ x: mousePosition.x, y: mousePosition.y * 2 }}
-          transition={{ type: 'spring', stiffness: 100, damping: 30 }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-accent/5 to-[#7c3aed]/5 rounded-full blur-3xl"
+          animate={{ x: mousePosition.x * -1.5, y: mousePosition.y * -1.5 }}
+          transition={{ type: 'spring', stiffness: 60, damping: 25 }}
+          className="absolute bottom-10 right-[8%] w-72 h-72 sm:w-96 sm:h-96 bg-[var(--gradient-end)]/10 rounded-full blur-[100px]"
         />
       </div>
 
@@ -76,133 +88,111 @@ export function Hero() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-3xl mx-auto text-center relative z-10 perspective"
-        style={{
-          transformStyle: 'preserve-3d',
-          transform: `perspective(1200px) rotateX(${mousePosition.y * 0.02}deg) rotateY(${-mousePosition.x * 0.02}deg)`,
-        }}
+        className="max-w-3xl mx-auto text-center relative z-10"
       >
-        <motion.div
-          variants={itemVariants}
-          className="mb-6"
-          whileHover={{ scale: 1.05 }}
-        >
-          <motion.div
-            className="inline-block px-4 py-2 rounded-full border border-accent bg-accent/5"
-            animate={{ boxShadow: ['0 0 20px rgba(0, 217, 255, 0.3)', '0 0 40px rgba(0, 217, 255, 0.6)', '0 0 20px rgba(0, 217, 255, 0.3)'] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            <span className="text-sm text-accent">Welcome to my interactive portfolio</span>
-          </motion.div>
+        <motion.div variants={itemVariants} className="mb-8 flex justify-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-border bg-card/50">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            </span>
+            <span className="mono-label text-[11px] text-muted-foreground">Open to internships &amp; new grad roles</span>
+          </div>
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-6 text-balance leading-tight">
+          <h1 className="text-[13vw] sm:text-6xl md:text-7xl font-bold mb-5 leading-[1.05] tracking-tight flex items-center justify-center whitespace-nowrap">
+            <motion.span className="text-gradient">{displayText}</motion.span>
             <motion.span
-              className="text-gradient block"
-              animate={{ backgroundPosition: ['0% center', '100% center', '0% center'] }}
-              transition={{ duration: 8, repeat: Infinity }}
-            >
-              Sanchita Mishra
-            </motion.span>
+              initial={{ opacity: 0 }}
+              animate={isTyping ? { opacity: [0, 1, 1, 0, 0] } : { opacity: 0 }}
+              transition={isTyping ? { duration: 0.8, repeat: Infinity, times: [0, 0.1, 0.5, 0.6, 1] } : { duration: 0.4 }}
+              className="inline-block w-[3px] sm:w-[5px] h-[0.75em] bg-accent ml-1.5 sm:ml-2 rounded-full"
+            />
           </h1>
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-balance">
-            <span className="text-gradient">Full-Stack Developer</span> Building{' '}
-            <span className="text-accent">AI-Powered</span> Solutions
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-6 text-balance text-foreground">
+            Full-stack engineer building <span className="text-accent">AI-powered</span>, production-grade software
           </h2>
         </motion.div>
 
         <motion.p
           variants={itemVariants}
-          className="text-xl text-foreground/70 mb-8 text-balance max-w-2xl mx-auto"
+          className="text-lg text-muted-foreground mb-10 text-balance max-w-xl mx-auto leading-relaxed"
         >
-          Specializing in MERN stack, real-time systems, and intelligent automation. Currently pursuing BTech in CSE at MAIT.
+          Specializing in the MERN stack, real-time systems, and applied AI integrations.
+          Currently completing a B.Tech in Computer Science at MAIT.
         </motion.p>
 
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap gap-4 justify-center relative z-20"
+          className="flex flex-wrap gap-4 justify-center items-center relative z-20"
         >
-          <Link
+          <MagneticButton
+            as="a"
             href="#projects"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-              // Optional: Update URL without jumping
-              window.history.pushState(null, '', '#projects');
-            }}
-            passHref
-            legacyBehavior={false}
+            onClick={(e) => { e.preventDefault(); scrollTo('projects') }}
+            strength={0.3}
+            className="px-7 py-3.5 rounded-lg bg-accent text-accent-foreground font-semibold transition-shadow duration-300 glow-accent hover:shadow-lg cursor-pointer inline-block"
           >
-            <motion.div
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 rounded-lg bg-accent text-background font-semibold md:hover:bg-accent/80 md:hover:[transform:scale(1.1)_rotateY(-5deg)] transition-all duration-300 glow-neon block cursor-pointer"
-              style={{ transformStyle: 'preserve-3d' }}
-            >
-              View Projects
-            </motion.div>
-          </Link>
-          <Link
+            View My Work
+          </MagneticButton>
+          <MagneticButton
+            as="a"
             href="#contact"
-            onClick={(e) => {
-              e.preventDefault();
-              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-              window.history.pushState(null, '', '#contact');
-            }}
-            passHref
-            legacyBehavior={false}
+            onClick={(e) => { e.preventDefault(); scrollTo('contact') }}
+            strength={0.3}
+            className="px-7 py-3.5 rounded-lg border border-border text-foreground font-semibold hover:border-accent/50 hover:text-accent transition-colors duration-300 cursor-pointer inline-block"
           >
-            <motion.div
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 rounded-lg border border-accent text-accent md:hover:bg-accent/10 md:hover:[transform:scale(1.1)_rotateY(5deg)] font-semibold transition-all duration-300 block cursor-pointer"
-              style={{ transformStyle: 'preserve-3d' }}
-            >
-              Get in Touch
-            </motion.div>
-          </Link>
+            Get in Touch
+          </MagneticButton>
           <a
             href="/Sanchita_Mishra_Resume.pdf"
             download="Sanchita_Mishra_Resume.pdf"
-            className="block"
+            className="inline-flex items-center gap-1.5 px-4 py-3.5 text-muted-foreground hover:text-foreground font-medium transition-colors cursor-pointer"
           >
-            <motion.div
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 rounded-lg border border-[#7c3aed] text-[#7c3aed] md:hover:bg-[#7c3aed]/10 md:hover:[transform:scale(1.1)_rotateY(10deg)] font-semibold transition-all duration-300 block glow-purple cursor-pointer"
-              style={{ transformStyle: 'preserve-3d' }}
-            >
-              Download Resume
-            </motion.div>
+            <Download size={16} />
+            Resume
           </a>
         </motion.div>
+      </motion.div>
 
-        {/* Scroll indicator with 3D effect */}
-        <motion.div
-          variants={itemVariants}
-          className="mt-20 flex justify-center"
-          animate={{ y: [0, 15, 0] }}
-          transition={{ repeat: Infinity, duration: 2.5 }}
-        >
-          <motion.div
-            animate={{ rotateZ: [0, 10, -10, 0] }}
-            transition={{ duration: 3, repeat: Infinity }}
-          >
-            <svg
-              className="w-8 h-8 text-accent"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+      {/* Tech marquee */}
+      <motion.div
+        variants={itemVariants}
+        initial="hidden"
+        animate="visible"
+        className="marquee-row relative z-10 mt-20 w-full max-w-4xl mx-auto overflow-hidden"
+        style={{
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+          maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+        }}
+      >
+        <div className="flex w-max marquee-track">
+          {[...techStack, ...techStack].map((tech, i) => (
+            <span
+              key={`${tech}-${i}`}
+              className="mono-label text-xs text-muted-foreground px-6 whitespace-nowrap"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
-          </motion.div>
+              {tech}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="mt-10 flex flex-col items-center gap-2 text-muted-foreground"
+      >
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+        >
+          <ArrowDown size={16} />
         </motion.div>
       </motion.div>
     </section>

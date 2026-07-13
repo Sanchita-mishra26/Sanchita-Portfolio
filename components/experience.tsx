@@ -1,288 +1,193 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { motion, Variants } from 'framer-motion'
+
+interface Experience {
+  company: string
+  role: string
+  period: string
+  location: string
+  current?: boolean
+  points: string[]
+}
+
+const experiences: Experience[] = [
+  {
+    company: 'Castler',
+    role: 'AI Engineer Intern',
+    period: 'June 2026 - August 2026',
+    location: 'Gurugram, India',
+    current: true,
+    points: [
+      'Building AI agents to automate internal office workflows, reducing manual operational overhead',
+      'Developed Retrieval-Augmented Generation (RAG) pipelines using ChromaDB for vector storage and Anthropic’s Claude models for reasoning',
+      'Built FastAPI backend services to expose agent capabilities as internal tools and APIs',
+      'Used Pydantic for structured data validation and schema enforcement across agent inputs and outputs',
+    ],
+  },
+  {
+    company: 'Bureau of Indian Standards (BIS)',
+    role: 'Scientist Intern',
+    period: 'June 2024 - August 2024',
+    location: 'Uttar Pradesh',
+    points: [
+      'Conducted technical validation and compliance analysis of electrical products against Indian Standards',
+      'Analyzed test data and specifications for reliability evaluation',
+      'Worked with structured technical documentation and validation workflows',
+      'Gained exposure to standardization processes and quality assurance frameworks',
+    ],
+  },
+  {
+    company: 'Kushal: Aide',
+    role: 'Web Developer Intern',
+    period: 'May 2024 - June 2024',
+    location: 'Delhi NCR',
+    points: [
+      'Collaborated on frontend feature development and UI enhancements',
+      'Contributed to design optimization improving user interaction flow',
+      'Worked in agile environment with iterative development cycles',
+      'Assisted in feature implementation and responsive design improvements',
+    ],
+  },
+]
+
+const education = [
+  {
+    degree: 'Bachelor of Technology in CSE',
+    school: 'Maharaja Agrasen Institute of Technology (MAIT)',
+    org: 'GGSIPU',
+    period: '2025 - 2028',
+    location: 'New Delhi',
+    gpa: '8.7',
+  },
+  {
+    degree: 'Diploma in Electronics and Communication',
+    school: 'Ambedkar Institute of Technology (AIT), DSEU',
+    org: '',
+    period: '2022 - 2025',
+    location: 'New Delhi',
+    gpa: '8.45',
+  },
+]
 
 export function Experience() {
-  const [expandedExp, setExpandedExp] = useState<number | null>(null)
-
-  const experiences = [
-    {
-      company: 'Bureau of Indian Standards (BIS)',
-      role: 'Scientist Intern',
-      period: 'June 2024 - August 2024',
-      location: 'Uttar Pradesh',
-      points: [
-        'Conducted technical validation and compliance analysis of electrical products against Indian Standards',
-        'Analyzed test data and specifications for reliability evaluation',
-        'Worked with structured technical documentation and validation workflows',
-        'Gained exposure to standardization processes and quality assurance frameworks',
-      ],
-    },
-    {
-      company: 'Kushal: Aide',
-      role: 'Intern',
-      period: 'May 2024 - June 2024',
-      location: 'Delhi NCR',
-      points: [
-        'Collaborated on frontend feature development and UI enhancements',
-        'Contributed to design optimization improving user interaction flow',
-        'Worked in agile environment with iterative development cycles',
-        'Assisted in feature implementation and responsive design improvements',
-      ],
-    },
-  ]
-
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 },
     },
   }
 
-  const itemVariants = {
-    hidden: { opacity: 0, x: -50, rotateY: 20 },
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
-      x: 0,
-      rotateY: 0,
-      transition: { duration: 0.7, ease: 'easeOut', type: 'spring', stiffness: 60 },
+      y: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
     },
   }
 
   return (
-    <section id="experience" className="py-20 px-4 relative overflow-hidden">
-      {/* Background animated elements */}
-      <motion.div
-        className="absolute top-20 left-10 w-60 h-60 bg-accent/5 rounded-full blur-3xl"
-        animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }}
-        transition={{ duration: 10, repeat: Infinity }}
-      />
-
+    <section id="experience" className="py-24 sm:py-32 px-4 relative overflow-hidden">
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, type: 'spring', stiffness: 80 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="mb-16 text-center"
+          className="mb-16 max-w-xl"
         >
-          <motion.h2
-            className="text-4xl sm:text-5xl font-bold mb-4 text-gradient"
-            animate={{ backgroundPosition: ['0% center', '100% center', '0% center'] }}
-            transition={{ duration: 8, repeat: Infinity }}
-          >
-            Experience & Education
-          </motion.h2>
-          <motion.p
-            className="text-xl text-foreground/60"
-            animate={{ opacity: [0.6, 1, 0.6] }}
-            transition={{ duration: 4, repeat: Infinity }}
-          >
-            Professional journey through tech and innovation
-          </motion.p>
+          <p className="mono-label text-xs text-accent mb-3">Background</p>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 tracking-tight">
+            Experience &amp; Education
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            Professional and academic milestones through tech and innovation.
+          </p>
         </motion.div>
 
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '0px 0px -100px 0px' }}
-          className="space-y-6 mb-16"
+          viewport={{ once: true, margin: '0px 0px -80px 0px' }}
+          className="space-y-5 mb-20"
         >
-          {experiences.map((exp, index) => (
+          {experiences.map((exp) => (
             <motion.div
               key={exp.company}
               variants={itemVariants}
-              onMouseEnter={() => setExpandedExp(index)}
-              onMouseLeave={() => setExpandedExp(null)}
-              className="relative"
-              style={{ perspective: '1000px' }}
+              className="card-hover relative pl-6 p-6 rounded-2xl border border-border bg-card overflow-hidden"
             >
-              <motion.div
-                animate={{
-                  rotateX: expandedExp === index ? -8 : 0,
-                  rotateY: expandedExp === index ? 3 : 0,
-                  z: expandedExp === index ? 20 : 0,
-                  boxShadow:
-                    expandedExp === index
-                      ? '0 20px 40px rgba(0, 217, 255, 0.3), 0 0 30px rgba(124, 58, 237, 0.2)'
-                      : '0 5px 15px rgba(0, 0, 0, 0.1)',
-                }}
-                transition={{ duration: 0.3 }}
-                className="p-6 rounded-2xl border border-border bg-gradient-to-br from-card/60 to-card/30 hover:border-accent/50 transition-all duration-300 group relative overflow-hidden"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                {/* Animated background glow */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-[#7c3aed]/10 rounded-2xl"
-                  animate={{
-                    opacity: expandedExp === index ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-
-                {/* Content */}
-                <div className="relative z-10">
-                  <motion.div
-                    className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4"
-                    animate={{ y: expandedExp === index ? -5 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div>
-                      <motion.h3
-                        className="text-xl font-bold text-accent"
-                        animate={{
-                          letterSpacing: expandedExp === index ? '0.5px' : '0px',
-                          color: expandedExp === index ? 'rgba(0, 217, 255, 1)' : 'rgba(0, 217, 255, 0.8)',
-                        }}
-                      >
-                        {exp.role}
-                      </motion.h3>
-                      <motion.p
-                        className="text-lg text-foreground"
-                        animate={{ color: expandedExp === index ? 'rgba(226, 232, 240, 1)' : 'rgba(226, 232, 240, 0.9)' }}
-                      >
-                        {exp.company}
-                      </motion.p>
-                    </div>
-                    <motion.div
-                      className="text-sm text-foreground/60 whitespace-nowrap"
-                      animate={{ opacity: expandedExp === index ? 1 : 0.7 }}
-                    >
-                      <p>{exp.period}</p>
-                      <p>{exp.location}</p>
-                    </motion.div>
-                  </motion.div>
-                  <motion.ul
-                    className="space-y-3"
-                    animate={{ y: expandedExp === index ? -5 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {exp.points.map((point, i) => (
-                      <motion.li
-                        key={i}
-                        className="text-foreground/80 flex gap-3"
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                        viewport={{ once: true }}
-                        animate={{
-                          color: expandedExp === index ? 'rgba(226, 232, 240, 1)' : 'rgba(226, 232, 240, 0.8)',
-                        }}
-                      >
-                        <motion.span
-                          className="text-accent mt-1 flex-shrink-0"
-                          animate={{
-                            scale: expandedExp === index ? 1.2 : 1,
-                            color: expandedExp === index ? 'rgba(0, 217, 255, 1)' : 'rgba(0, 217, 255, 0.8)',
-                          }}
-                        >
-                          ▸
-                        </motion.span>
-                        <span>{point}</span>
-                      </motion.li>
-                    ))}
-                  </motion.ul>
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-accent" />
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                <div>
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <h3 className="text-lg font-bold text-foreground">{exp.role}</h3>
+                    {exp.current && (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-500/10">
+                        <span className="relative flex h-1.5 w-1.5">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        </span>
+                        <span className="mono-label text-[9px] text-emerald-500">Current</span>
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-accent font-medium">{exp.company}</p>
                 </div>
-
-                {/* 3D edge effect */}
-                <motion.div
-                  className="absolute inset-0 rounded-2xl pointer-events-none"
-                  style={{
-                    border: '1px solid',
-                    borderColor: expandedExp === index ? 'rgba(0, 217, 255, 0.5)' : 'transparent',
-                  }}
-                  animate={{
-                    boxShadow: expandedExp === index
-                      ? 'inset 0 0 20px rgba(0, 217, 255, 0.2)'
-                      : 'inset 0 0 0px transparent',
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.div>
+                <div className="text-sm text-muted-foreground sm:text-right whitespace-nowrap">
+                  <p>{exp.period}</p>
+                  <p>{exp.location}</p>
+                </div>
+              </div>
+              <ul className="space-y-2.5">
+                {exp.points.map((point, i) => (
+                  <li key={i} className="text-sm text-muted-foreground flex gap-3 leading-relaxed">
+                    <span className="text-accent mt-0.5 shrink-0">▸</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Education */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, type: 'spring', stiffness: 80 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
-          className="pt-16 border-t border-border/30"
         >
-          <motion.h3
-            className="text-3xl font-bold text-gradient mb-8"
-            animate={{ backgroundPosition: ['0% center', '100% center', '0% center'] }}
-            transition={{ duration: 8, repeat: Infinity }}
-          >
-            Education
-          </motion.h3>
+          <h3 className="text-xl font-bold mb-6 text-foreground">Education</h3>
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="space-y-6"
+            className="space-y-5"
           >
-            <motion.div
-              variants={itemVariants}
-              className="p-6 rounded-2xl border border-border bg-gradient-to-br from-card/60 to-card/30 hover:border-accent/50 transition-all group relative overflow-hidden"
-              whileHover={{ boxShadow: '0 20px 40px rgba(0, 217, 255, 0.3)' }}
-            >
+            {education.map((edu) => (
               <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-[#7c3aed]/10 rounded-2xl"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              <div className="relative z-10 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <motion.div whileHover={{ x: 5 }}>
-                  <h4 className="text-lg font-bold text-foreground">
-                    Bachelor of Technology in CSE
-                  </h4>
-                  <p className="text-accent">Maharaja Agrasen Institute of Technology (MAIT)</p>
-                  <p className="text-sm text-foreground/60">GGSIPU</p>
-                </motion.div>
-                <motion.div className="text-sm text-foreground/60 text-right whitespace-nowrap" whileHover={{ color: 'rgba(0, 217, 255, 1)' }}>
-                  <p>2025 - 2028</p>
-                  <p>New Delhi</p>
-                  <motion.p className="text-accent">GPA: 8.56</motion.p>
-                </motion.div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              className="p-6 rounded-2xl border border-border bg-gradient-to-br from-card/60 to-card/30 hover:border-accent/50 transition-all group relative overflow-hidden"
-              whileHover={{ boxShadow: '0 20px 40px rgba(124, 58, 237, 0.3)' }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-[#7c3aed]/10 via-transparent to-accent/10 rounded-2xl"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              <div className="relative z-10 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <motion.div whileHover={{ x: 5 }}>
-                  <h4 className="text-lg font-bold text-foreground">
-                    Diploma in Electronics and Communication
-                  </h4>
-                  <p className="text-accent">Ambedkar Institute of Technology (AIT), DSEU</p>
-                </motion.div>
-                <motion.div className="text-sm text-foreground/60 text-right whitespace-nowrap" whileHover={{ color: 'rgba(124, 58, 237, 1)' }}>
-                  <p>2022 - 2025</p>
-                  <p>New Delhi</p>
-                  <motion.p className="text-accent">GPA: 8.45</motion.p>
-                </motion.div>
-              </div>
-            </motion.div>
+                key={edu.degree}
+                variants={itemVariants}
+                className="card-hover p-6 rounded-2xl border border-border bg-card"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                  <div>
+                    <h4 className="text-base font-bold text-foreground">{edu.degree}</h4>
+                    <p className="text-accent font-medium">{edu.school}</p>
+                    {edu.org && <p className="text-sm text-muted-foreground">{edu.org}</p>}
+                  </div>
+                  <div className="text-sm text-muted-foreground sm:text-right whitespace-nowrap">
+                    <p>{edu.period}</p>
+                    <p>{edu.location}</p>
+                    <p className="text-accent font-medium mt-1">GPA: {edu.gpa}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         </motion.div>
       </div>
